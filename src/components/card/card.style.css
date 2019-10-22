@@ -1,0 +1,27 @@
+/* .card p {
+  padding: 0;
+  margin: 0;
+} */
+
+.card {
+  border: 1px solid black;
+  margin: -1px;
+  padding: 20px;
+  text-align: center;
+}
+
+.right-arrow {
+  float: right;
+}
+
+.left-arrow:before {
+  content: "<"
+}
+
+.left-arrow {
+  float: left;
+}
+
+.right-arrow:after {
+  content: ">"
+}
