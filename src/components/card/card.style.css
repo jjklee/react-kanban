@@ -1,27 +1,9 @@
-/* .card p {
-  padding: 0;
-  margin: 0;
-} */
-
 .card {
-  border: 1px solid black;
-  margin: -1px;
-  padding: 20px;
-  text-align: center;
-}
-
-.right-arrow {
-  float: right;
-}
-
-.left-arrow:before {
-  content: "<"
-}
-
-.left-arrow {
-  float: left;
-}
-
-.right-arrow:after {
-  content: ">"
+	margin: 5px auto;
+	border-radius: 3px;
+	padding: 10px;
+	text-align: left;
+	width: 85%;
+	background-color: #fff;
+	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }

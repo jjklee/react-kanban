@@ -1,40 +1,102 @@
 .single-column {
-  width: 100%;
-  border: 1px solid black;
-  margin: 25px;
-  height: auto;
-  background-color: #ebecf0;
+	width: 100%;
+	border-radius: 3px;
+	margin: 25px;
+	height: auto;
+	background-color: #ebecf0;
+	text-align: center;
+	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }
 
-.single-column h3 {
-  height: 30px;
-  text-align: center;
+.single-column p {
+	text-align: left;
+	padding: 10px 5px 5px 30px;
+	margin: 3px;
+	font-weight: 600;
 }
 
 .single-column button {
-  background-color: #ebecf0;
-  border: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px;
-  display: inline-block;
+	background-color: #ebecf0;
+	border: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	font-size: 16px;
+	cursor: pointer;
+	display: inline-block;
 }
 
-.single-column>button {
-  margin: 2px;
+.single-column > button {
+	width: 90%;
+	text-align: left;
+	margin: 3px;
+	margin: 10px;
+	font-size: 12px;
+	padding: 5px;
+}
+
+.single-column > button:hover,
+.delete-card:hover {
+	background: #d7d9e0;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 .add:before {
-  content: "\002B";
-  margin-right: 5px;
+	content: "\002B";
+	margin-right: 5px;
 }
 
 .add:focus {
-  outline: none;
+	outline: none;
 }
 
 .add:hover {
-  text-decoration: underline;
+	text-decoration: underline;
+}
+
+.card-container {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+}
+
+.card-container button {
+	width: 25px;
+}
+
+.delete-card {
+	float: right;
+	width: 20px;
+	height: 20px;
+	background-color: rgb(245, 245, 245);
+	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+	border-radius: 50%;
+	text-align: center;
+	font-size: 15px;
+}
+
+.delete-card:after {
+	content: "\00d7";
+}
+
+.left-arrow,
+.right-arrow,
+.no-arrow {
+	line-height: 100%;
+	margin: 5px;
+	border-radius: 3px;
+	padding: 0;
+}
+
+.left-arrow:before {
+	content: "<";
+}
+
+.right-arrow:after {
+	content: ">";
+}
+
+.left-arrow:hover,
+.right-arrow:hover {
+	background: #d7d9e0;
 }
