@@ -5,22 +5,22 @@ import '../board/board.style.css';
 export class Board extends Component {
   state = {
     columns: [{
-      title: "column1",
-      cards: ["to do 1", "to do 2"]
+      title: "Backlog",
+      cards: [" Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."]
     }, {
-      title: "column2",
-      cards: ["to do 1", "to do 2"]
+      title: "In progress",
+      cards: ["Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat..", "Nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus."]
     }, {
-      title: "column3",
-      cards: ["to do 1", "to do 2"]
+      title: "Staged for review",
+      cards: ["Facilisis leo vel fringilla est ullamcorper eget.", "Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat."]
     }, {
-      title: "column4",
-      cards: ["to do 1", "to do 2"]
+      title: "Completed",
+      cards: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Quis auctor elit sed vulputate mi sit amet. Sit amet risus nullam eget felis eget."]
     }]
   }
 
   handleAddCard = ({ target }) => {
-    const {id} = target
+    const { id } = target
     const text = window.prompt();
     if (!text) {
       return;
@@ -28,7 +28,15 @@ export class Board extends Component {
     const cards = [...this.state.columns[id].cards, text]
     let columns = this.state.columns;
     columns[id].cards = cards;
-    this.setState({ columns }, () => console.log(this.state));
+    this.setState({ columns });
+  }
+
+  handleRemoveCard = (colInd, cardInd) => {
+    const cards = this.state.columns[colInd].cards
+    cards.splice(cardInd, 1);
+    let columns = this.state.columns;
+    columns[colInd].cards = cards;
+    this.setState({ columns });
   }
 
   moveCardRight = (colInd, cardInd) => {
@@ -47,13 +55,14 @@ export class Board extends Component {
 
   render () {
     return (
-      <div className="column">
+      <div className="columns">
       {this.state.columns.map((column, i) => (
         <Column 
           column={column}
           key={i} 
           colInd={i} 
-          handleClick={this.handleAddCard} 
+          handleAddCard={this.handleAddCard} 
+          handleRemoveCard={this.handleRemoveCard}
           moveLeft={this.moveCardLeft}
           moveRight={this.moveCardRight}
         />

@@ -1,4 +1,6 @@
-.column {
+.columns {
   display: flex;
   margin: 0 25px;
+  align-items: flex-start;
+  height: 100%;
 }
