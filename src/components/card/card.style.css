@@ -7,3 +7,19 @@
 	background-color: #fff;
 	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }
+
+.card-tools {
+	display: block;
+	width: 100%;
+}
+
+.card-tools button {
+	float:right;
+	font-size: 12px;
+	background-color: #fff;
+	padding: 5px;
+}
+
+.card-tools button:hover {
+	text-decoration: underline;
+}
