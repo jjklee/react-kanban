@@ -1,44 +1,49 @@
 import React, { Component } from "react";
+import axios from 'axios';
 import { Board } from "./components/board/board.component";
 import { NavBar } from "./components/navbar/navbar.component";
 export default class App extends Component {
 	state = {
-		columns: [
-			{
-				title: "Backlog",
-				cards: [
-					"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-					"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-				]
-			},
-			{
-				title: "In progress",
-				cards: [
-					"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-					"Nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus."
-				]
-			},
-			{
-				title: "Staged for review",
-				cards: [
-					"Facilisis leo vel fringilla est ullamcorper eget.",
-					"Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat."
-				]
-			},
-			{
-				title: "Completed",
-				cards: [
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-					"Quis auctor elit sed vulputate mi sit amet. Sit amet risus nullam eget felis eget."
-				]
-			}
-		],
+		columns: [],
 		search: "",
 		searchResults: [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 			"Quis auctor elit sed vulputate mi sit amet. Sit amet risus nullam eget felis eget."
 		]
 	};
+
+	componentDidMount() {
+		this.fetchColumns();
+	}
+
+	fetchColumns = () => {
+		axios
+			.get('/api/columns')
+			.then(({data}) => {
+				const columns = [];
+				data.forEach(column => {
+					let obj = {};
+					obj.title = column.title;
+					obj.cards = [];
+					columns.push(obj);
+				});
+				return columns;
+			})
+			.then((columns) => this.fetchCards(columns))
+			.catch(err => (console.log("Could not fetch columns")));
+	}
+
+	fetchCards = (columns) => {
+		axios
+			.get('/api/cards')
+			.then(({data}) => {
+				data.forEach(card => {
+					columns[card.column_id - 1].cards.push(card.text);
+				})
+				this.setState({ columns })
+			})
+			.catch(err => (console.log(err)));
+	}
 
 	handleSearch = e => {
 		console.log(this.state.columns[0].cards)
@@ -87,7 +92,7 @@ export default class App extends Component {
 		return (
 			<div className="app">
 				<NavBar search={this.state.search} handleSearch={this.handleSearch} searchResults={this.state.searchResults} />
-				<Board columns={this.state.columns}/>
+				<Board columns={this.state.columns} />
 			</div>
 		);
 	}
