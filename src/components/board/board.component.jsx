@@ -6,9 +6,9 @@ export const Board = props =>
 	<div className="columns">
 		{props.columns.map((column, i) => (
 			<Column
-				column={column}
 				key={i}
-				colInd={i}
+				column={column}
+				colInd={i + 1}
 				handleAddCard={props.handleAddCard}
 				handleRemoveCard={props.handleRemoveCard}
 				moveLeft={props.moveCardLeft}
