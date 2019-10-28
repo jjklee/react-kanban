@@ -1,0 +1,24 @@
+.results {
+	display: none;
+	z-index: 1;
+	width: 300px;
+	text-align: left;
+	position: absolute;
+	top: 40px;
+	left: 10px;
+	background-color: #ebecf0;
+}
+
+.result-card {
+	text-align: left;
+	background-color: #fff;
+	margin: 5px;
+}
+
+.results,
+.result-card {
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: 1px 1px 0 rgba(30, 30, 66, 0.25);
+	font-size: 14px;
+}
