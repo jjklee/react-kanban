@@ -1,11 +1,11 @@
 import React from "react";
 import "../card/card.style.css";
 
-export const Card = ({ card, handleRemoveCard, colInd, cardInd }) => (
+export const Card = ({ text, handleRemoveCard, card_id }) => (
 	<div className="card">
-		<span>{card}</span>
+		<span>{text}</span>
 		<div className="card-tools">
-			<button onClick={() => handleRemoveCard(colInd, cardInd)}>delete</button>
+			<button onClick={() => handleRemoveCard(card_id)}>delete</button>
 			<button>edit</button>
 		</div>
 	</div>

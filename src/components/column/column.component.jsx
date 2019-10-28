@@ -15,20 +15,22 @@ export const Column = ({
 		{column.cards.map((card, i) => (
 			<div className="card-container" key={i}>
 				{colInd > 0 ? (
-					<button className="left-arrow" onClick={() => moveLeft(colInd, i)} />
+					<button
+						className="left-arrow"
+						onClick={() => moveLeft(colInd, card.id)}
+					/>
 				) : (
 					<button className="no-arrow" />
 				)}
 				<Card
-					card={card}
+					text={card.text}
+					card_id={card.id}
 					handleRemoveCard={handleRemoveCard}
-					colInd={colInd}
-					cardInd={i}
 				/>
 				{colInd < 3 ? (
 					<button
 						className="right-arrow"
-						onClick={() => moveRight(colInd, i)}
+						onClick={() => moveRight(colInd, card.id)}
 					/>
 				) : (
 					<button className="no-arrow" />

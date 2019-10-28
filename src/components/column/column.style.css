@@ -4,7 +4,6 @@
 	margin: 25px;
 	height: auto;
 	background-color: #ebecf0;
-	text-align: center;
 	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }
 
@@ -16,29 +15,21 @@
 }
 
 .single-column button {
-	background-color: #ebecf0;
 	border: none;
 	-moz-appearance: none;
 	-webkit-appearance: none;
-	font-size: 16px;
 	cursor: pointer;
-	display: inline-block;
+	border-radius: 3px;
 }
 
-.single-column > button {
-	width: 90%;
-	text-align: left;
-	margin: 3px;
-	margin: 10px;
+.single-column>button {
+	margin: 3px 3px 5px 25px;
 	font-size: 12px;
-	padding: 5px;
+	padding: 5px 7px;
 }
 
-.single-column > button:hover,
-.delete-card:hover {
-	background: #d7d9e0;
-	text-decoration: none;
-	cursor: pointer;
+.add {
+	background-color: #ebecf0;
 }
 
 .add:before {
@@ -51,7 +42,8 @@
 }
 
 .add:hover {
-	text-decoration: underline;
+	background-color: #d7d9e0;
+	cursor: pointer;
 }
 
 .card-container {
@@ -60,11 +52,7 @@
 	position: relative;
 }
 
-.card-container button {
-	width: 25px;
-}
-
-.delete-card {
+/* .delete-card {
 	float: right;
 	width: 20px;
 	height: 20px;
@@ -77,7 +65,7 @@
 
 .delete-card:after {
 	content: "\00d7";
-}
+} */
 
 .left-arrow,
 .right-arrow,
@@ -86,6 +74,10 @@
 	margin: 5px;
 	border-radius: 3px;
 	padding: 0;
+	width: 25px;
+	font-size: 16px;
+	display: inline-block;
+	background-color: #ebecf0;
 }
 
 .left-arrow:before {
