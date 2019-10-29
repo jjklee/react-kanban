@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../card/card.style.css";
+import Textfield from "./textfield.component";
 export default class Card extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showEditField: false,
-			text: ""
+			selectedCard: null
 		};
 	}
 
 	handleEdit = e => {
 		const { target } = e;
 		this.setState({ showEditField: false }, () => {
-			this.setState({ showEditField: true });
+			this.setState({ showEditField: true, selectedCard: target.id });
 		});
 		const node = ReactDOM.findDOMNode(this.refs[target.id]);
 		if (node) {
@@ -24,7 +25,8 @@ export default class Card extends Component {
 	};
 
 	handleCancel = e => {
-		const node = ReactDOM.findDOMNode(this.refs[e.target.id]);
+		let id = this.state.selectedCard;
+		const node = ReactDOM.findDOMNode(this.refs[id]);
 		const overlay = document.getElementById("overlay");
 		if (node) {
 			node.classList.remove("selected-card");
@@ -33,46 +35,29 @@ export default class Card extends Component {
 		this.setState({ showEditField: false });
 	};
 
-	handleChange = e => {
-		this.setState({ text: e.target.value });
-	};
-
-	handleSave = e => {
-		this.props.editCard(this.props.card_id, this.state.text);
-		window.location.reload();
-	};
-
 	render() {
 		return (
 			<div className="card" ref={this.props.card_id}>
 				{this.state.showEditField ? (
-					<textarea
-						className="edit-field"
-						id={`text${this.props.card_id}`}
-						onChange={this.handleChange}
-						defaultValue={this.props.text}
-					></textarea>
+					<Textfield
+						handleCancel={this.handleCancel}
+						card_id={this.props.card_id}
+						text={this.props.text}
+						editCard={this.props.editCard}
+					/>
 				) : (
-					<span>{this.props.text}</span>
+					<React.Fragment>
+						<span>{this.props.text}</span>
+						<div className="card-tools">
+							<button onClick={() => this.props.removeCard(this.props.card_id)}>
+								delete
+							</button>
+							<button onClick={this.handleEdit} id={this.props.card_id}>
+								edit
+							</button>
+						</div>
+					</React.Fragment>
 				)}
-				<div className="card-tools">
-					{this.state.showEditField ? (
-						<button onClick={this.handleSave}>save</button>
-					) : (
-						<button onClick={() => this.props.removeCard(this.props.card_id)}>
-							delete
-						</button>
-					)}
-					{this.state.showEditField ? (
-						<button onClick={this.handleCancel} id={this.props.card_id}>
-							cancel
-						</button>
-					) : (
-						<button onClick={this.handleEdit} id={this.props.card_id}>
-							edit
-						</button>
-					)}
-				</div>
 			</div>
 		);
 	}
