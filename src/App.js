@@ -59,8 +59,8 @@ export default class App extends Component {
 		}
 	};
 
-	handleAddCard = colInd => {
-		const text = window.prompt();
+	addCard = colInd => {
+		const text = window.prompt("Enter text card for this card...");
 		if (!text) {
 			return;
 		}
@@ -70,7 +70,7 @@ export default class App extends Component {
 			.catch(err => console.error("Could not add card, try again."));
 	};
 
-	handleRemoveCard = cardInd => {
+	removeCard = cardInd => {
 		axios
 			.delete(`/api/delete/${cardInd}`)
 			.then(() => this.fetchColumns())
@@ -87,6 +87,7 @@ export default class App extends Component {
 	editCard = (cardInd, text) => {
 		axios
 			.patch("/api/edit", { cardInd, text })
+			.then(() => this.fetchColumns())
 			.catch(err => console.error("Could not edit card, try again."));
 	};
 
