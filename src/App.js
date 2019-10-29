@@ -5,7 +5,8 @@ import { NavBar } from "./components/navbar/navbar.component";
 export default class App extends Component {
 	state = {
 		columns: [],
-		searchResults: []
+		searchResults: [],
+		search: ""
 	};
 
 	componentDidMount() {
@@ -37,6 +38,7 @@ export default class App extends Component {
 					let cardObj = {};
 					cardObj.id = card.id;
 					cardObj.text = card.text;
+					cardObj.showEditField = false;
 					columns[card.column_id - 1].cards.push(cardObj);
 				});
 				this.setState({ columns });
@@ -55,7 +57,7 @@ export default class App extends Component {
 					}
 				})
 				.then(({ data }) => this.setState({ searchResults: data }))
-				.catch(err => console.log(err));
+				.catch(err => console.log("Could not find card, try again"));
 		}
 	};
 
@@ -65,33 +67,29 @@ export default class App extends Component {
 			return;
 		}
 		axios
-			.post('/api/addCard', {
+			.post("/api/add", {
 				text,
 				colInd
 			})
-			.then(() => this.fetchColumns)
-			.catch(err => console.error('Could not add card, try again.'));
+			.then(() => this.fetchColumns())
+			.catch(err => console.error("Could not add card, try again."));
 	};
 
 	handleRemoveCard = cardInd => {
 		axios
 			.delete(`/api/delete/${cardInd}`)
-			.then(() => this.fetchColumns)
-			.catch(err => console.error('Could not delete, try again.'));
+			.then(() => this.fetchColumns())
+			.catch(err => console.error("Could not delete, try again."));
 	};
 
-	moveCardRight = (colInd, cardInd) => {
-		let columns = [...this.state.columns];
-		const card = columns[colInd].cards.splice(cardInd, 1);
-		columns[colInd + 1].cards.push(card);
-		this.setState({ columns });
-	};
-
-	moveCardLeft = (colInd, cardInd) => {
-		let columns = [...this.state.columns];
-		const card = columns[colInd].cards.splice(cardInd, 1);
-		columns[colInd - 1].cards.push(card);
-		this.setState({ columns });
+	moveCard = (newColInd, cardInd) => {
+		axios
+			.patch("/api/move", {
+				newColInd,
+				cardInd
+			})
+			.then(() => this.fetchColumns())
+			.catch(err => console.error("Could not move card, try again."));
 	};
 
 	render() {
@@ -101,11 +99,13 @@ export default class App extends Component {
 					search={this.state.search}
 					handleSearch={this.handleSearch}
 					searchResults={this.state.searchResults}
+					columns={this.state.columns}
 				/>
 				<Board
 					columns={this.state.columns}
 					handleRemoveCard={this.handleRemoveCard}
 					handleAddCard={this.handleAddCard}
+					moveCard={this.moveCard}
 				/>
 			</div>
 		);
