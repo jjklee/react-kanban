@@ -35,7 +35,7 @@ const deleteCard = (req, res) => {
 		}
 	})
 		.then(data => res.sendStatus(200).send(data))
-		.catch(err => res.sendStatus(404).send("Could not fetch matching cards"));
+		.catch(err => res.sendStatus(404).send("Could not delete cards"));
 };
 
 const addCard = (req, res) => {
@@ -46,19 +46,31 @@ const addCard = (req, res) => {
 		text
 	})
 		.then(data => res.sendStatus(200).send(data))
-		.catch(err => res.sendStatus(404).send("Could not fetch matching cards"));
+		.catch(err => res.sendStatus(404).send("Could not add cards"));
 };
 
 const moveCard = (req, res) => {
 	const id = req.body.cardInd;
 	const column_id = req.body.newColInd;
-	Cards.update(
-		{ column_id },
-		{ where: id }
-	)
-	.then(data => res.sendStatus(200).send(data))
-	.catch(err => res.sendStatus(404).send("Could not fetch matching cards"));
+	Cards.update({ column_id }, { where: { id } })
+		.then(data => res.sendStatus(200).send(data))
+		.catch(err => res.sendStatus(404).send("Could not move card"));
+};
 
-}
+const editCard = (req, res) => {
+	const id = req.body.cardInd;
+	const text = req.body.text;
+	Cards.update({ text }, { where: { id } })
+		.then(data => res.sendStatus(200).send(data))
+		.catch(err => res.sendStatus(404).send("Could not edit card"));
+};
 
-module.exports = { getColumns, getCards, search, deleteCard, addCard, moveCard };
+module.exports = {
+	getColumns,
+	getCards,
+	search,
+	deleteCard,
+	addCard,
+	moveCard,
+	editCard
+};
