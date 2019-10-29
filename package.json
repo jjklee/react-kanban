@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "nodemon ./server",
-    "seed": "node ./database/seed.js"
+    "seed": "node ./db/seed.js"
   },
   "eslintConfig": {
     "extends": "react-app"
