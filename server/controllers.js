@@ -34,7 +34,7 @@ const deleteCard = (req, res) => {
 			id
 		}
 	})
-		.then(data => res.sendStatus(200).send(data))
+		.then(data => res.sendStatus(200))
 		.catch(err => res.sendStatus(404).send("Could not delete cards"));
 };
 
@@ -45,24 +45,24 @@ const addCard = (req, res) => {
 		column_id,
 		text
 	})
-		.then(data => res.sendStatus(200).send(data))
-		.catch(err => res.sendStatus(404).send("Could not add cards"));
+		.then(data => res.sendStatus(200))
+		.catch(err => res.status(404).send("Could not add cards"));
 };
 
 const moveCard = (req, res) => {
 	const id = req.body.cardInd;
 	const column_id = req.body.newColInd;
 	Cards.update({ column_id }, { where: { id } })
-		.then(data => res.sendStatus(200).send(data))
-		.catch(err => res.sendStatus(404).send("Could not move card"));
+		.then(data => res.sendStatus(200))
+		.catch(err => res.status(404).send("Could not move card"));
 };
 
 const editCard = (req, res) => {
 	const id = req.body.cardInd;
 	const text = req.body.text;
 	Cards.update({ text }, { where: { id } })
-		.then(data => res.sendStatus(200).send(data))
-		.catch(err => res.sendStatus(404).send("Could not edit card"));
+		.then(data => res.sendStatus(200))
+		.catch(err => res.status(404).send("Could not edit card"));
 };
 
 module.exports = {
