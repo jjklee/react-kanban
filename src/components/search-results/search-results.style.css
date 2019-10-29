@@ -22,3 +22,8 @@
 	box-shadow: 1px 1px 0 rgba(30, 30, 66, 0.25);
 	font-size: 14px;
 }
+
+.search-column {
+	display: block;
+	text-align: right;
+}
