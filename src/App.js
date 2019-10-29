@@ -52,9 +52,7 @@ export default class App extends Component {
 		if (search.length > 3) {
 			axios
 				.get("/api/search", {
-					params: {
-						search
-					}
+					params: { search }
 				})
 				.then(({ data }) => this.setState({ searchResults: data }))
 				.catch(err => console.log("Could not find card, try again"));
@@ -67,10 +65,7 @@ export default class App extends Component {
 			return;
 		}
 		axios
-			.post("/api/add", {
-				text,
-				colInd
-			})
+			.post("/api/add", { text, colInd })
 			.then(() => this.fetchColumns())
 			.catch(err => console.error("Could not add card, try again."));
 	};
@@ -84,12 +79,15 @@ export default class App extends Component {
 
 	moveCard = (newColInd, cardInd) => {
 		axios
-			.patch("/api/move", {
-				newColInd,
-				cardInd
-			})
+			.patch("/api/move", { newColInd, cardInd })
 			.then(() => this.fetchColumns())
 			.catch(err => console.error("Could not move card, try again."));
+	};
+
+	editCard = (cardInd, text) => {
+		axios
+			.patch("/api/edit", { cardInd, text })
+			.catch(err => console.error("Could not edit card, try again."));
 	};
 
 	render() {
@@ -103,9 +101,10 @@ export default class App extends Component {
 				/>
 				<Board
 					columns={this.state.columns}
-					handleRemoveCard={this.handleRemoveCard}
-					handleAddCard={this.handleAddCard}
+					removeCard={this.removeCard}
+					addCard={this.addCard}
 					moveCard={this.moveCard}
+					editCard={this.editCard}
 				/>
 			</div>
 		);
