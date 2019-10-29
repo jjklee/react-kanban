@@ -1,14 +1,14 @@
 import React from "react";
-import { Card } from "../card/card.component.jsx";
+import Card from "../card/card.component.jsx";
 import "./column.style.css";
 
 export const Column = ({
 	column,
-	handleAddCard,
-	handleRemoveCard,
-	moveLeft,
-	moveRight,
-	colInd
+	addCard,
+	removeCard,
+	colInd,
+	moveCard,
+	editCard
 }) => (
 	<div className="single-column">
 		<p className="title">{column.title}</p>
@@ -17,27 +17,29 @@ export const Column = ({
 				{colInd > 1 ? (
 					<button
 						className="left-arrow"
-						onClick={() => moveLeft(colInd, card.id)}
+						onClick={() => moveCard(colInd - 1, card.id)}
 					/>
 				) : (
 					<button className="no-arrow" />
 				)}
 				<Card
 					text={card.text}
+					column={column}
 					card_id={card.id}
-					handleRemoveCard={handleRemoveCard}
+					removeCard={removeCard}
+					editCard={editCard}
 				/>
 				{colInd < 4 ? (
 					<button
 						className="right-arrow"
-						onClick={() => moveRight(colInd, card.id)}
+						onClick={() => moveCard(colInd + 1, card.id)}
 					/>
 				) : (
 					<button className="no-arrow" />
 				)}
 			</div>
 		))}
-		<button className="add" id={colInd} onClick={handleAddCard}>
+		<button className="add" id={colInd} onClick={() => addCard(colInd)}>
 			Add another card
 		</button>
 	</div>

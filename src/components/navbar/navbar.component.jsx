@@ -3,7 +3,7 @@ import { SearchResults } from "../search-results/search-results.component";
 import logo from "../../assets/favicon.ico";
 import "./navbar.style.css";
 
-export const NavBar = ({ handleSearch, searchResults }) => (
+export const NavBar = ({ handleSearch, searchResults, search, columns }) => (
 	<div className="nav">
 		<input
 			className="searchbar"
@@ -11,8 +11,8 @@ export const NavBar = ({ handleSearch, searchResults }) => (
 			placeholder="Search for a card..."
 			onChange={handleSearch}
 		/>
-		{searchResults.length > 0 ? (
-			<SearchResults searchResults={searchResults} />
+		{search.length > 3 ? (
+			<SearchResults searchResults={searchResults} columns={columns} />
 		) : null}
 		<span className="header">react-kanban</span>
 		<div className="portfolio">
