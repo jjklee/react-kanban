@@ -1,7 +1,7 @@
 const express = require("express");
 const parser = require("body-parser");
 const path = require("path");
-const { getColumns, getCards, search, deleteCard } = require("./controllers");
+const { getColumns, getCards, search, deleteCard, addCard, moveCard } = require("./controllers");
 const app = express();
 
 app.use(parser.json());
@@ -12,6 +12,8 @@ app.get("/api/columns", getColumns);
 app.get("/api/cards", getCards);
 app.get("/api/search", search);
 app.delete("/api/delete/:id", deleteCard);
+app.post("/api/add", addCard)
+app.patch("/api/move", moveCard)
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "../build/index.html"));
