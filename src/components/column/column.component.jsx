@@ -1,6 +1,16 @@
 import React from "react";
-import Card from "../card/card.component.jsx";
+import styled from "styled-components";
+import Card from "../card/card.component";
+import { Droppable } from "react-beautiful-dnd";
 import "./column.style.css";
+
+const TaskList = styled.div`
+  padding: 8px;
+  transition: background-color 0.2s ease;
+  background-color ${props => (props.isDraggingOver ? "gray" : "#ebecf0")};
+  flex-grow: 1;
+  min-height: 100px;
+`;
 
 export const Column = ({
 	column,
@@ -12,35 +22,28 @@ export const Column = ({
 }) => (
 	<div className="single-column">
 		<p className="title">{column.title}</p>
-		{column.cards.map((card, i) => (
-			<div className="card-container" key={i}>
-				{colInd > 1 ? (
-					<button
-						className="left-arrow"
-						onClick={() => moveCard(colInd - 1, card.id)}
-					/>
-				) : (
-					<button className="no-arrow" />
-				)}
-				<Card
-					text={card.text}
-					column={column}
-					card_id={card.id}
-					removeCard={removeCard}
-					editCard={editCard}
-				/>
-				{colInd < 4 ? (
-					<button
-						className="right-arrow"
-						onClick={() => moveCard(colInd + 1, card.id)}
-					/>
-				) : (
-					<button className="no-arrow" />
-				)}
-			</div>
-		))}
 		<button className="add" id={colInd} onClick={() => addCard(colInd)}>
 			Add another card
 		</button>
+		<Droppable droppableId={`${column.id}`}>
+			{(provided, snapshot) => (
+				<TaskList
+					ref={provided.innerRef}
+					{...provided.droppableProps}
+					isDraggingOver={snapshot.isDraggingOver}
+				>
+					{column.cards.map((card, i) => (
+						<Card
+							key={i}
+							card={card}
+							removeCard={removeCard}
+							editCard={editCard}
+							index={card.id}
+						/>
+					))}
+					{provided.placeholder}
+				</TaskList>
+			)}
+		</Droppable>
 	</div>
 );
