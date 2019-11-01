@@ -10,7 +10,7 @@ const getColumns = (req, res) => {
 
 const getCards = (req, res) => {
 	Cards.findAll()
-		.then(data => res.status(200).send(data))
+		.then(data => {res.status(200).send(data)})
 		.catch(err => res.status(404).send("Could not get columns"));
 };
 
@@ -23,7 +23,7 @@ const search = (req, res) => {
 			}
 		}
 	})
-		.then(data => res.status(200).send(data))
+		.then(data => {console.log(data); res.status(200).send(data)})
 		.catch(err => res.status(404).send("Could not fetch matching cards"));
 };
 
@@ -39,11 +39,12 @@ const deleteCard = (req, res) => {
 };
 
 const addCard = (req, res) => {
-	const text = req.body.text;
-	const column_id = req.body.colInd;
+	const {text, priority, due_date, column_id} = req.body
 	Cards.create({
 		column_id,
-		text
+		text,
+		priority,
+		due_date
 	})
 		.then(data => res.sendStatus(200))
 		.catch(err => res.status(404).send("Could not add cards"));
