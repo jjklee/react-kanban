@@ -1,16 +1,29 @@
 import React, { Component } from "react";
-import { Column } from "../column/column.component";
+import Column from "../column/column.component";
 import { DragDropContext } from "react-beautiful-dnd";
 import "../board/board.style.css";
+import axios from "axios";
 
 export default class Board extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-
 	onDragEnd = result => {
-		//change card order
+		const { destination, source } = result;
+		if (!destination) return;
+		if (
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
+		) {
+			return;
+		}
+		const newColInd = parseInt(destination.droppableId);
+		const cardInd = source.index;
+		this.moveCard(cardInd, newColInd);
+	};
+
+	moveCard = (cardInd, newColInd) => {
+		axios
+			.patch("/api/move", { cardInd, newColInd })
+			.then(() => this.props.fetchColumns())
+			.catch(err => console.error("Could not move card, try again."));
 	};
 
 	render() {
@@ -23,10 +36,7 @@ export default class Board extends Component {
 							key={i}
 							column={column}
 							colInd={column.id}
-							addCard={this.props.addCard}
-							removeCard={this.props.removeCard}
-							moveCard={this.props.moveCard}
-							editCard={this.props.editCard}
+							fetchColumns={this.props.fetchColumns}
 						/>
 					))}
 				</div>

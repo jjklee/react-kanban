@@ -1,5 +1,6 @@
-import onClickOutside from "react-onclickoutside";
 import React, { Component } from "react";
+import onClickOutside from "react-onclickoutside";
+import { FaRegCalendarAlt, FaExclamation } from "react-icons/fa";
 
 class Textfield extends Component {
 	constructor(props) {
@@ -11,10 +12,11 @@ class Textfield extends Component {
 
 	componentDidMount() {
 		this.setState({ text: this.props.text });
+		document.getElementById("textarea").focus();
 	}
 
-	handleClickOutside = e => {
-		this.props.handleCancel(this.props.card_id);
+	handleClickOutside = () => {
+		this.props.handleCancel(this.props.selectedCard);
 	};
 
 	handleChange = e => {
@@ -22,24 +24,37 @@ class Textfield extends Component {
 	};
 
 	handleSave = () => {
-		this.props.editCard(this.props.card_id, this.state.text);
-		this.props.handleCancel(this.props.card_id);
+		this.props.editCard(this.props.card.id, this.state.text);
+		this.props.handleCancel(this.props.card.id);
 	};
 
 	render() {
 		return (
-			<div>
+			<div className="text-field" id="textarea">
 				<textarea
+					style={{ height: this.props.height }}
 					className="edit-field"
 					onChange={this.handleChange}
-					defaultValue={this.props.text}
-					id="this.props.card_id"
+					defaultValue={this.props.card.text}
+					id={this.props.card.id}
 				></textarea>
 				<div className="card-tools">
-					<button onClick={this.handleCancel} id={this.props.card_id}>
-						cancel
-					</button>
-					<button onClick={this.handleSave}>save</button>
+					<div className="badges">
+						<button className="due">
+							<FaRegCalendarAlt className="tool-icon" />
+							{this.props.dueDate}
+						</button>
+						<button className="priority">
+							<FaExclamation className="tool-icon" />
+							{this.props.card.priority}
+						</button>
+					</div>
+					<div className="card-btns">
+						<button onClick={this.props.handleCancel} id={this.props.card.id}>
+							cancel
+						</button>
+						<button onClick={this.handleSave}>save</button>
+					</div>
 				</div>
 			</div>
 		);

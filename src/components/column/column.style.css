@@ -1,35 +1,45 @@
 .single-column {
-	width: 100%;
+	width: 270px;
 	border-radius: 3px;
 	margin: 25px;
-	height: auto;
 	background-color: #ebecf0;
 	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+	border: 1px solid lightgrey;
+	display: flex;
+	flex-direction: column;
 }
 
-.single-column p {
+.title {
+	padding: 8px;
 	text-align: left;
-	padding: 10px 5px 5px 30px;
 	margin: 3px;
 	font-weight: 600;
+	position: relative;
+}
+
+.single-column p:hover {
+	color: lightgrey;
+	cursor: pointer;
 }
 
 .single-column button {
 	border: none;
 	-moz-appearance: none;
 	-webkit-appearance: none;
-	cursor: pointer;
 	border-radius: 3px;
 }
 
-.single-column>button {
-	margin: 3px 3px 5px 25px;
+.single-column > button {
+	margin: 3px 3px 5px 10px;
 	font-size: 12px;
 	padding: 5px 7px;
+	width: 92%;
 }
 
 .add {
 	background-color: #ebecf0;
+	width: 85%;
+	text-align: left;
 }
 
 .add:before {
@@ -46,49 +56,49 @@
 	cursor: pointer;
 }
 
-.card-container {
+.add-form {
+	background-color: white;
+	font-size: 12px;
+	padding: 8px;
+	margin: 8px;
+	border: 1px solid lightgrey;
+}
+
+.nums {
 	display: flex;
-	flex-direction: row;
-	position: relative;
+	justify-content: space-between;
+	margin-bottom: 8px;
 }
 
-/* .delete-card {
-	float: right;
-	width: 20px;
-	height: 20px;
-	background-color: rgb(245, 245, 245);
-	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-	border-radius: 50%;
-	text-align: center;
-	font-size: 15px;
+.form-input {
+	padding: 8px;
 }
 
-.delete-card:after {
-	content: "\00d7";
-} */
+input {
+	height: 25px;
+	margin: 2px;
+}
 
-.left-arrow,
-.right-arrow,
-.no-arrow {
-	line-height: 100%;
-	margin: 5px;
+input, textarea {
 	border-radius: 3px;
+	border: 1px solid black;
+	font-size: 14px;
+	font-family: inherit;
 	padding: 0;
-	width: 25px;
-	font-size: 16px;
-	display: inline-block;
-	background-color: #ebecf0;
+	margin: 0;
 }
 
-.left-arrow:before {
-	content: "<";
+textarea {
+	resize: none;
+	height: 75px;
+	width: 100%;
 }
 
-.right-arrow:after {
-	content: ">";
+.form-tools {
+	text-align: right;
 }
 
-.left-arrow:hover,
-.right-arrow:hover {
-	background: #d7d9e0;
+.form-tools button {
+	font-size: 12px;
+	margin-top: 5px;
 }
