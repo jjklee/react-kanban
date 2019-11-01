@@ -22,9 +22,16 @@ Cards.init(
 			type: Sequelize.STRING,
 			allowNull: false,
 			notEmpty: true
+		},
+		priority: {
+			type: Sequelize.INTEGER,
+			defaultValue: 0
+		},
+		due_date: {
+			type: Sequelize.STRING
 		}
 	},
-	{ sequelize, timestamps: false }
+	{ sequelize }
 );
 
 Cards.sync()
