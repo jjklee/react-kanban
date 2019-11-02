@@ -8,9 +8,10 @@ import "./column.style.css";
 const TaskList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
-  background-color ${props => (props.isDraggingOver ? "gray" : "#ebecf0")};
+  background-color ${props => (props.isDraggingOver ? "#cdced3" : "#ebecf0")};
   flex-grow: 1;
-  min-height: 100px;
+	min-height: 100px;
+	border-radius: 3px;
 `;
 
 export default class Column extends React.Component {
@@ -19,8 +20,8 @@ export default class Column extends React.Component {
 		this.state = {
 			showAddField: false,
 			text: "",
-			priority: null,
-			due_date: "",
+			priority: 1,
+			due_date: "2050-01-01",
 			column_id: null
 		};
 	}
@@ -42,7 +43,7 @@ export default class Column extends React.Component {
 			.post("/api/add", { text, priority, due_date, column_id })
 			.then(() => {
 				this.handleAddCard();
-				this.props.fetchColumns()
+				this.props.fetchColumns();
 			})
 			.catch(err => console.error("Could not add card, try again."));
 	};
@@ -75,6 +76,7 @@ export default class Column extends React.Component {
 							type="number"
 							min="1"
 							max="10"
+							defaultValue="1"
 							className="form-input"
 							id="priority"
 							onChange={this.handleChange}
@@ -86,6 +88,7 @@ export default class Column extends React.Component {
 							id="due_date"
 							min="2019-10-31"
 							type="date"
+							defaultValue="2050-01-01"
 							className="form-input"
 							onChange={this.handleChange}
 						/>
@@ -135,7 +138,7 @@ export default class Column extends React.Component {
 									card={card}
 									removeCard={this.removeCard}
 									editCard={this.editCard}
-									index={card.id}
+									index={i}
 								/>
 							))}
 							{provided.placeholder}
