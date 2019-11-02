@@ -20,15 +20,17 @@ Cards.init(
 		},
 		text: {
 			type: Sequelize.STRING,
-			allowNull: false,
 			notEmpty: true
 		},
 		priority: {
 			type: Sequelize.INTEGER,
-			defaultValue: 0
+			defaultValue: 0,
 		},
 		due_date: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+		},
+		order: {
+			type: Sequelize.INTEGER,
 		}
 	},
 	{ sequelize }
