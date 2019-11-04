@@ -28,9 +28,6 @@ Cards.init(
 		},
 		due_date: {
 			type: Sequelize.STRING,
-		},
-		order: {
-			type: Sequelize.INTEGER,
 		}
 	},
 	{ sequelize }

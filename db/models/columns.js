@@ -13,6 +13,15 @@ Columns.init(
 		title: {
 			type: Sequelize.STRING,
 			notNull: true
+		},
+		card_order: {
+			type: Sequelize.STRING,
+			get: function() {
+				return JSON.parse(this.getDataValue("card_order"));
+			},
+			set: function(val) {
+				return this.setDataValue('card_order', JSON.stringify(val));
+			}
 		}
 	},
 	{ timestamps: false, sequelize }
