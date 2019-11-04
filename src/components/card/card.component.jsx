@@ -27,11 +27,8 @@ export default class Card extends Component {
 	}
 
 	handleOverlay = e => {
-		const { target } = e;
-		const id = target.id;
-		this.setState({ showEditField: true, selectedCard: id }, () => {
-			document.getElementById("textarea").focus();
-		});
+		const id = e.target.id;
+		this.setState({ showEditField: true, selectedCard: id });
 		const node = ReactDOM.findDOMNode(this.refs[id]);
 		if (node) {
 			node.classList.add("selected-card");
@@ -42,7 +39,7 @@ export default class Card extends Component {
 		overlay.classList.add("show-overlay");
 	};
 
-	handleCancel = e => {
+	handleCancel = () => {
 		let id = this.state.selectedCard;
 		const node = ReactDOM.findDOMNode(this.refs[id]);
 		const overlay = document.getElementById("overlay");
@@ -54,9 +51,8 @@ export default class Card extends Component {
 	};
 
 	render() {
-		let dueDate = this.props.card.due_date;
-		dueDate = dueDate.substring(5);
-		
+		const dueDate = this.props.card.due_date.substring(5);
+
 		return (
 			<div ref={this.props.index} className="cardfield">
 				{this.state.showEditField ? (
