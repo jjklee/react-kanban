@@ -44,14 +44,14 @@ export default class Board extends Component {
 		card_order = JSON.stringify(card_order);
 		axios
 			.patch("/api/move", { id, card_order })
-			.then(() => this.props.fetchColumns)
+			.then(() => this.props.fetchColumns())
 			.catch(err => console.error("Could not move card, try again."));
 	};
 
 	updateColumnId = (id, column_id) => {
 		axios
 			.patch("/api/updateCol", { id, column_id })
-			.then(() => this.props.fetchColumns)
+			.then(() => this.props.fetchColumns())
 			.catch(err => console.error("Could not update column, try again."));
 	};
 
