@@ -98,7 +98,7 @@ export default class Card extends Component {
 											edit
 										</button>
 										<button
-											onClick={() => this.props.removeCard(this.props.index)}
+											onClick={() => this.props.removeCard(this.props.card.id)}
 										>
 											delete
 										</button>

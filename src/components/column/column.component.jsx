@@ -39,13 +39,17 @@ export default class Column extends React.Component {
 
 	handleSave = () => {
 		const { text, priority, due_date, column_id } = this.state;
+		let order = this.props.column.card_order;
+		let id = this.props.idCounter + 1;
+		order.push(id);
 		axios
-			.post("/api/add", { text, priority, due_date, column_id })
+			.post("/api/add", { id, text, priority, due_date, column_id })
 			.then(() => {
 				this.handleAddCard();
+				this.props.moveCard(column_id, order);
 				this.props.fetchColumns();
 			})
-			.catch(err => console.error("Could not add card, try again."));
+			.catch(err => console.error(err));
 	};
 
 	handleChange = ({ target }) => {
@@ -53,9 +57,16 @@ export default class Column extends React.Component {
 	};
 
 	removeCard = cardInd => {
+		const id = this.props.column.id;
+		let order = this.props.column.card_order;
+		const index = order.indexOf(cardInd);
+		order.splice(index, 1);
 		axios
 			.delete(`/api/delete/${cardInd}`)
-			.then(() => this.props.fetchColumns())
+			.then(() => {
+				this.props.moveCard(id, order);
+				this.props.fetchColumns();
+			})
 			.catch(err => console.error("Could not delete, try again."));
 	};
 
