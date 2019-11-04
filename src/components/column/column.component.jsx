@@ -47,7 +47,6 @@ export default class Column extends React.Component {
 			.then(() => {
 				this.handleAddCard();
 				this.props.moveCard(column_id, order);
-				this.props.fetchColumns();
 			})
 			.catch(err => console.error(err));
 	};
@@ -65,7 +64,6 @@ export default class Column extends React.Component {
 			.delete(`/api/delete/${cardInd}`)
 			.then(() => {
 				this.props.moveCard(id, order);
-				this.props.fetchColumns();
 			})
 			.catch(err => console.error("Could not delete, try again."));
 	};
