@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import onClickOutside from "react-onclickoutside";
 import { FaRegCalendarAlt, FaExclamation } from "react-icons/fa";
-
 class Textfield extends Component {
 	constructor(props) {
 		super(props);
@@ -12,7 +11,7 @@ class Textfield extends Component {
 
 	componentDidMount() {
 		this.setState({ text: this.props.text });
-		document.getElementById("textarea").focus();
+		document.getElementsByTagName('textarea')[0].focus();
 	}
 
 	handleClickOutside = () => {
@@ -32,7 +31,9 @@ class Textfield extends Component {
 		return (
 			<div className="text-field" id="textarea">
 				<textarea
+					ref
 					style={{ height: this.props.height }}
+					id="test"
 					className="edit-field"
 					onChange={this.handleChange}
 					defaultValue={this.props.card.text}
