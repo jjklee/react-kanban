@@ -6,7 +6,8 @@ export default class App extends Component {
 	state = {
 		columns: [],
 		searchResults: [],
-		search: ""
+		search: "",
+		idCounter: null
 	};
 
 	componentDidMount() {
@@ -16,7 +17,13 @@ export default class App extends Component {
 	fetchColumns = () => {
 		axios
 			.get("/api/columns")
-			.then(({ data }) => this.fetchCards(data))
+			.then(({ data }) => {
+				let columns = data;
+				columns.forEach(column => {
+					column.cards = [];
+				});
+				this.fetchCards(columns);
+			})
 			.catch(err => console.log("Could not fetch columns"));
 	};
 
@@ -25,12 +32,15 @@ export default class App extends Component {
 			.get("/api/cards")
 			.then(({ data }) => {
 				let columns = col;
-				data.forEach(card => {
-					columns[card.column_id - 1].cards
-						? columns[card.column_id - 1].cards.push(card)
-						: (columns[card.column_id - 1].cards = [card]);
+				for (let i = 0; i < columns.length; i++) {
+					for (let j = 0; j < columns[i].card_order.length; j++) {
+						columns[i].cards.push(data[columns[i].card_order[j] - 1]);
+					}
+				}
+				this.setState({
+					columns,
+					idCounter: data[data.length - 1].id
 				});
-				this.setState({ columns }, () => console.log(this.state));
 			})
 			.catch(err => console.log("Could not fetch cards"));
 	};
@@ -57,7 +67,11 @@ export default class App extends Component {
 					searchResults={this.state.searchResults}
 					columns={this.state.columns}
 				/>
-				<Board columns={this.state.columns} fetchColumns={this.fetchColumns} />
+				<Board
+					columns={this.state.columns}
+					fetchColumns={this.fetchColumns}
+					idCounter={this.state.idCounter}
+				/>
 			</div>
 		);
 	}
