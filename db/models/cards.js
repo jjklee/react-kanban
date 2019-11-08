@@ -9,7 +9,10 @@ Cards.init(
 		id: {
 			type: Sequelize.INTEGER,
 			autoIncrement: true,
-			primaryKey: true
+			primaryKey: true,
+			get: function() {
+				return JSON.stringify(this.getDataValue("id"));
+			}
 		},
 		column_id: {
 			type: Sequelize.INTEGER,
@@ -24,10 +27,10 @@ Cards.init(
 		},
 		priority: {
 			type: Sequelize.INTEGER,
-			defaultValue: 0,
+			defaultValue: 0
 		},
 		due_date: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING
 		}
 	},
 	{ sequelize }
