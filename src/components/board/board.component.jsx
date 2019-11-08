@@ -8,7 +8,6 @@ export default class Board extends React.Component {
 	onDragEnd = result => {
 		let { destination, source, draggableId } = result;
 		draggableId = parseInt(draggableId);
-		const cardId = parseInt(draggableId);
 		const startColId = parseInt(source.droppableId);
 		if (!destination) return;
 		if (
@@ -65,7 +64,7 @@ export default class Board extends React.Component {
 			finishColId,
 			finishOrder
 		);
-		this.updateColumnId(cardId, destination.droppableId);
+		this.updateColumnId(draggableId, destination.droppableId);
 	};
 
 	moveCard = (id, card_order) => {
