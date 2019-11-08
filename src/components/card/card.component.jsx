@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "../card/card.style.css";
 import Textfield from "./textfield.component";
@@ -14,9 +14,10 @@ const Container = styled.div`
 	margin-bottom: 8px;
 	opacity: ${props => (props.isDragging ? 0.7 : 1)};
 	position: relative;
+	min-height: 25px;
 `;
 
-export default class Card extends Component {
+export default class Card extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -51,10 +52,13 @@ export default class Card extends Component {
 	};
 
 	render() {
-		const dueDate = this.props.card.due_date.substring(5);
+		const dueDate = (this.props.card.due_date ? this.props.card.due_date.substring(5) : "N/A")
 
 		return (
-			<div ref={this.props.index} className="cardfield">
+			<div
+				ref={this.props.index}
+				className="cardfield"
+			>
 				{this.state.showEditField ? (
 					<Textfield
 						handleCancel={this.handleCancel}
@@ -66,9 +70,8 @@ export default class Card extends Component {
 					/>
 				) : (
 					<Draggable
-						draggableId={`${this.props.card.id}`}
+						draggableId={this.props.card.id}
 						index={this.props.index}
-						ref={this.props.cardId}
 					>
 						{(provided, snapshot) => (
 							<Container
@@ -77,7 +80,7 @@ export default class Card extends Component {
 								ref={provided.innerRef}
 								isDragging={snapshot.isDragging}
 							>
-								{this.props.card.text}
+								id:{this.props.card.id}, ind: {this.props.index} : {this.props.card.text}
 								<div className="card-tools">
 									<div className="badges">
 										<button className="due">
