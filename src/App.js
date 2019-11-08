@@ -1,29 +1,24 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React from "react";
+import axios from 'axios';
 import Board from "./components/board/board.component";
 import { NavBar } from "./components/navbar/navbar.component";
-export default class App extends Component {
+export default class App extends React.Component {
 	state = {
 		columns: [],
+		cards: {},
 		searchResults: [],
 		search: "",
 		idCounter: null
 	};
 
 	componentDidMount() {
-		this.fetchColumns();
+		this.fetchColumns()
 	}
 
 	fetchColumns = () => {
 		axios
 			.get("/api/columns")
-			.then(({ data }) => {
-				let columns = data;
-				columns.forEach(column => {
-					column.cards = [];
-				});
-				this.fetchCards(columns);
-			})
+			.then(({ data }) => this.fetchCards(data))
 			.catch(err => console.log("Could not fetch columns"));
 	};
 
@@ -31,18 +26,22 @@ export default class App extends Component {
 		axios
 			.get("/api/cards")
 			.then(({ data }) => {
-				let columns = col;
-				for (let i = 0; i < columns.length; i++) {
-					for (let j = 0; j < columns[i].card_order.length; j++) {
-						columns[i].cards.push(data[columns[i].card_order[j] - 1]);
-					}
-				}
+				const cards = {}
+				data.map(card => cards[card.id] = card);
+				return [cards, parseInt(data[data.length - 1].id)];
+			})
+			.then((data) => {
 				this.setState({
-					columns,
-					idCounter: data[data.length - 1].id
+					columns: col,
+					cards: data[0],
+					idCounter: data[1]
 				});
 			})
 			.catch(err => console.log("Could not fetch cards"));
+	};
+
+	updateColumns = columns => {
+		this.setState({ columns });
 	};
 
 	handleSearch = e => {
@@ -69,8 +68,10 @@ export default class App extends Component {
 				/>
 				<Board
 					columns={this.state.columns}
+					cards={this.state.cards}
 					fetchColumns={this.fetchColumns}
 					idCounter={this.state.idCounter}
+					updateColumns={this.updateColumns}
 				/>
 			</div>
 		);
