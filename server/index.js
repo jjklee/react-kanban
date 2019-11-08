@@ -9,7 +9,8 @@ const {
 	addCard,
 	moveCard,
 	editCard,
-	updateColumn
+	updateColumn,
+	moveColumns
 } = require("./controllers");
 const app = express();
 
@@ -25,9 +26,10 @@ app.post("/api/add", addCard);
 app.patch("/api/move", moveCard);
 app.patch("/api/edit", editCard);
 app.patch("/api/updateCol", updateColumn);
+app.patch("/api/moveColumns", moveColumns);
 
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "../build/index.html"));
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const port = process.env.PORT || 8080;

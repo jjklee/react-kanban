@@ -47,14 +47,6 @@ const addCard = (req, res) => {
 		.catch(err => res.status(404).send(err));
 };
 
-const moveCard = (req, res) => {
-	const { id } = req.body;
-	const card_order = JSON.parse(req.body.card_order);
-	Columns.update({ card_order }, { where: { id } })
-		.then(data => res.sendStatus(204))
-		.catch(err => res.status(404).send("Could not move card"));
-};
-
 const editCard = (req, res) => {
 	const id = req.body.cardInd;
 	const text = req.body.text;
@@ -70,6 +62,21 @@ const updateColumn = (req, res) => {
 		.catch(err => res.sendStatus(404));
 };
 
+const moveCard = (req, res) => {
+	const { card_order, id } = req.body;
+	Columns.update({ card_order }, { where: { id } })
+		.then(data => res.sendStatus(204))
+		.catch(err => res.status(404).send("Could not move card"));
+};
+
+const moveColumns = (req, res) => {
+	const { startColId, startOrder, finishColId, finishOrder } = req.body;	
+	Columns.update({ card_order: startOrder }, { where: { id: startColId } })
+	Columns.update({ card_order: finishOrder }, { where: { id: finishColId } })
+		.then(data => res.sendStatus(204))
+		.catch(err => res.sendStatus(404));
+};
+
 module.exports = {
 	getColumns,
 	getCards,
@@ -78,5 +85,6 @@ module.exports = {
 	addCard,
 	moveCard,
 	editCard,
-	updateColumn
+	updateColumn,
+	moveColumns
 };
