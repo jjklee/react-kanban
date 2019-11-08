@@ -37,18 +37,23 @@ export default class Column extends React.Component {
 		}
 	};
 
-	handleSave = () => {
+	onSave = () => {
 		const { text, priority, due_date, column_id } = this.state;
-		let order = this.props.column.card_order;
-		let id = this.props.idCounter + 1;
-		order.push(id);
+		if (!text.length) {
+			this.handleAddCard();
+			//return textfield cannot be empty
+			return;
+		}
+		const id = this.props.idCounter + 1;
+		const order = [id, ...this.props.column.card_order];
 		axios
 			.post("/api/add", { id, text, priority, due_date, column_id })
 			.then(() => {
 				this.handleAddCard();
 				this.props.moveCard(column_id, order);
 			})
-			.catch(err => console.error(err));
+			.then(() => this.props.fetchColumns())
+			.catch(err => console.error("Could not add card"));
 	};
 
 	handleChange = ({ target }) => {
@@ -56,15 +61,15 @@ export default class Column extends React.Component {
 	};
 
 	removeCard = cardInd => {
+		cardInd = parseInt(cardInd);
 		const id = this.props.column.id;
 		let order = this.props.column.card_order;
 		const index = order.indexOf(cardInd);
 		order.splice(index, 1);
 		axios
 			.delete(`/api/delete/${cardInd}`)
-			.then(() => {
-				this.props.moveCard(id, order);
-			})
+			.then(() => this.props.moveCard(id, order))
+			.then(() => this.props.fetchColumns())
 			.catch(err => console.error("Could not delete, try again."));
 	};
 
@@ -73,9 +78,9 @@ export default class Column extends React.Component {
 			.patch("/api/edit", { cardInd, text })
 			.then(() => this.props.fetchColumns())
 			.catch(err => console.error("Could not edit card, try again."));
-	};
-
-	AddCardForm() {
+  };
+  
+  AddCardForm() {
 		return (
 			<div className="add-form">
 				<div className="nums">
@@ -109,11 +114,12 @@ export default class Column extends React.Component {
 						placeholder="Add text for card here.."
 						className="form-input"
 						onChange={this.handleChange}
+						required={true}
 					/>
 				</div>
 				<div className="form-tools">
 					<button onClick={this.handleAddCard}>cancel</button>
-					<button onClick={this.handleSave}>save</button>
+					<button onClick={this.onSave}>save</button>
 				</div>
 			</div>
 		);
@@ -123,7 +129,7 @@ export default class Column extends React.Component {
 		return (
 			<div className="single-column">
 				<p className="title">{this.props.column.title}</p>
-				{this.state.showAddField ? (
+        {this.state.showAddField ? (
 					this.AddCardForm()
 				) : (
 					<button
@@ -141,13 +147,13 @@ export default class Column extends React.Component {
 							{...provided.droppableProps}
 							isDraggingOver={snapshot.isDraggingOver}
 						>
-							{this.props.column.cards.map((card, i) => (
+							{this.props.cards.map((card, i) => (
 								<Card
-									key={i}
+									key={card.id}
+									index={i}
 									card={card}
 									removeCard={this.removeCard}
 									editCard={this.editCard}
-									index={i}
 								/>
 							))}
 							{provided.placeholder}
