@@ -80,7 +80,7 @@ export default class Card extends React.Component {
 								ref={provided.innerRef}
 								isDragging={snapshot.isDragging}
 							>
-								id:{this.props.card.id}, ind: {this.props.index} : {this.props.card.text}
+								{this.props.card.text}
 								<div className="card-tools">
 									<div className="badges">
 										<button className="due">
