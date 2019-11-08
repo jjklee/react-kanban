@@ -33,7 +33,6 @@ class Textfield extends Component {
 				<textarea
 					ref
 					style={{ height: this.props.height }}
-					id="test"
 					className="edit-field"
 					onChange={this.handleChange}
 					defaultValue={this.props.card.text}
